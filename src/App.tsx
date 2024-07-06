@@ -9,12 +9,23 @@ import Dashboard from "./pages/Dashboard"
 import Documents from "./pages/Documents"
 import MyAccount from "./pages/MyAccount"
 import InterSidebar from "./components/Sidebar"
+import SignIn from "./components/SignIn"
+import SignUp from "./components/SignUp"
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Homepage></Homepage>}></Route>
+        <Route
+          path="/"
+          element={
+            <>
+              <SignIn></SignIn>
+              <SignUp></SignUp>
+              <Homepage></Homepage>
+            </>
+          }
+        ></Route>
         <Route
           path="/dashboard"
           element={
