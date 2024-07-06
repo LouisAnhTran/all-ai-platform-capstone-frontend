@@ -7,23 +7,101 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 import { getOpenSignIn } from "@/features/user/userSlice"
 import { useSelector, UseSelector, useDispatch } from "react-redux"
 import { changeModalSignIn } from "@/features/user/userSlice"
 
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+const formSchema = z.object({
+  username: z.string().min(6, {
+    message: "Username must be at least 6 characters.",
+  }),
+  password: z
+    .string()
+    .min(8, { message: "Password is too short" })
+    .max(20, { message: "Password is too long" }),
+})
+
 const SignIn = () => {
-    const isOpen=useSelector(getOpenSignIn);
-const dispatch=useDispatch();
+  const isOpen = useSelector(getOpenSignIn)
+  const dispatch = useDispatch()
+
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+    },
+  })
+
+  // 2. Define a submit handler.
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values)
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={()=>dispatch(changeModalSignIn())}>
+    <Dialog open={isOpen} onOpenChange={() => dispatch(changeModalSignIn())}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle className="text-center mb-5">Log in</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input placeholder="" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-center">
+                  <Button type="submit">Submit</Button>
+                </div>
+              </form>
+            </Form>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
