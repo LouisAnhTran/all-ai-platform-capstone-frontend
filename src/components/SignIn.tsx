@@ -14,6 +14,7 @@ import { z } from "zod"
 import { getOpenSignIn } from "@/features/user/userSlice"
 import { useSelector, UseSelector, useDispatch } from "react-redux"
 import { changeModalSignIn } from "@/features/user/userSlice"
+import { useNavigate } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -26,6 +27,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useLoginMutation } from "@/features/api/apiSlice"
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import CircularProgress from "@mui/material/CircularProgress"
+import Box from "@mui/material/Box"
 
 const formSchema = z.object({
   username: z.string().min(6, {
@@ -40,6 +46,10 @@ const formSchema = z.object({
 const SignIn = () => {
   const isOpen = useSelector(getOpenSignIn)
   const dispatch = useDispatch()
+  const { toast } = useToast()
+  const navigate = useNavigate()
+
+  const [login, { isLoading }] = useLoginMutation()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,16 +60,55 @@ const SignIn = () => {
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
+    console.log("values: ", values)
+    try {
+      const token = await login({
+        username: values.username,
+        password: values.password,
+      }).unwrap()
+
+      console.log("token: ", token)
+
+      setTokenCookie(token.access_token)
+
+      toast({
+        variant: "success",
+        title: "Your request is successful",
+        description: "You are logged in !",
+      })
+
+      navigate("/dashboard")
+    } catch (error: any) {
+      console.log("error: ", error)
+
+      // Error toast
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.data.detail,
+      })
+    }
+  }
+
+  function setTokenCookie(token: String) {
+    document.cookie = `access_token=${token}; path=/; Secure; SameSite=Strict`
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={() => dispatch(changeModalSignIn())}>
       <DialogContent>
         <DialogHeader>
+          {isLoading && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <Box sx={{ display: "flex" }}>
+                <CircularProgress className="w-60 h-60" />
+              </Box>
+            </div>
+          )}
+
           <DialogTitle className="text-center mb-5">Log in</DialogTitle>
           <DialogDescription>
             <Form {...form}>
@@ -74,7 +123,7 @@ const SignIn = () => {
                     <FormItem>
                       <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder="" {...field} />
+                        <Input placeholder="" {...field} disabled={isLoading}/>
                       </FormControl>
 
                       <FormMessage />
@@ -89,7 +138,7 @@ const SignIn = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="" {...field} />
+                        <Input placeholder="" {...field} disabled={isLoading}/>
                       </FormControl>
 
                       <FormMessage />
@@ -98,7 +147,7 @@ const SignIn = () => {
                 />
 
                 <div className="flex justify-center">
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" disabled={isLoading}>Submit</Button>
                 </div>
               </form>
             </Form>

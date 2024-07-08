@@ -11,6 +11,7 @@ import MyAccount from "./pages/MyAccount"
 import InterSidebar from "./components/Sidebar"
 import SignIn from "./components/SignIn"
 import SignUp from "./components/SignUp"
+import { Toaster } from "./components/ui/toaster"
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           path="/"
           element={
             <>
+              <Toaster></Toaster>
               <SignIn></SignIn>
               <SignUp></SignUp>
               <Homepage></Homepage>
@@ -30,6 +32,7 @@ const App = () => {
           path="/dashboard"
           element={
             <div className="flex">
+              <Toaster></Toaster>
               <InterSidebar></InterSidebar>
               <div className="h-screen flex-1 p-7">
                 <Dashboard></Dashboard>
@@ -41,6 +44,7 @@ const App = () => {
           path="/all_documents"
           element={
             <div className="flex">
+              <Toaster></Toaster>
               <InterSidebar></InterSidebar>
               <div className="h-screen flex-1 p-7">
                 <Documents></Documents>
