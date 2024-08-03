@@ -76,3 +76,8 @@
   }
 
   /* styles.css or your component's CSS module */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; 
+    resize: vertical;
+    height: auto;
+  }

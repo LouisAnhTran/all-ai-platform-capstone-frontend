@@ -5,13 +5,11 @@ import { Link } from "react-router-dom"
 
 const Menus = [
   { title: "Dashboard", src: "Chart_fill", link: "/dashboard" },
-  { title: "Documents", src: "Chat", link: "/all_documents" },
-  { title: "MyAccount", src: "User", gap: true, link: "/myaccount" },
-  { title: "Sharing", src: "Calendar", link: "/myaccount" },
-  { title: "Search", src: "Search", link: "/myaccount" },
-  { title: "Analytics", src: "Chart", link: "/myaccount" },
-  { title: "Files ", src: "Folder", gap: true, link: "/myaccount" },
-  { title: "Setting", src: "Setting", link: "/myaccount" },
+  { title: "Chat Bot", src: "Search", link: "/chat_bot" },
+  { title: "Documents Management", src: "Chat", link: "/all_documents" },
+  { title: "My Account", src: "User", gap: true, link: "/myaccount" },
+  { title: "Subscription Management", src: "Setting", link: "/subcription" },
+  { title: "Usage Analytics", src: "Chart", link: "/usage_analytics" }
 ]
 
 const InterSidebar = () => {
@@ -25,7 +23,7 @@ const InterSidebar = () => {
       <div
         className={` ${
           open ? "w-72" : "w-20 "
-        } bg-black h-screen p-5  pt-8 relative duration-500 flex flex-col border-r`}
+        } bg-blacksidebar h-screen p-5  pt-8 relative duration-500 flex flex-col border-r`}
       >
         <img
           src="./control.png"
@@ -43,7 +41,7 @@ const InterSidebar = () => {
             }`}
           />
           <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
+            className={`text-slate-300 origin-left font-medium text-xl duration-200 ${
               !open && "scale-0"
             }`}
           >
@@ -56,7 +54,7 @@ const InterSidebar = () => {
             <Link to={Menu.link}>
               <li
                 key={index}
-                className={`group flex rounded-md p-2 cursor-pointer hover:bg-slate-300 hover:text-black hover:font-medium text-gray-300 text-sm items-center gap-x-4 ${route === Menu.link && 'bg-slate-300 font-medium text-black '}
+                className={`group flex rounded-md p-2 cursor-pointer hover:bg-slate-300 hover:text-black hover:font-medium text-slate-300 text-sm items-center gap-x-4 ${route === Menu.link && 'bg-slate-300 font-medium text-black '}
                      ${Menu.gap ? " mt-2" : " mt-2"} ${
                        index === 0 && "bg-light-white"
                      } `}

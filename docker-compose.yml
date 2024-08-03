@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  web:
+    image: 767397783879.dkr.ecr.ap-southeast-1.amazonaws.com/pdf-query-pro-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"  # Map the production port to the development port

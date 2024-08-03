@@ -17,7 +17,15 @@ module.exports = {
       },
     },
     extend: {
+      backgroundColor: {
+        blacksidebar: "#171717",
+        bghover: "#474747",
+        bgleft: "#212121",
+        input: "#2F2F2F",
+        textarea: "#676767"
+      },
       colors: {
+        input1: "#2F2F2F",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

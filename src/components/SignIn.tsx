@@ -94,7 +94,7 @@ const SignIn = () => {
   }
 
   function setTokenCookie(token: String) {
-    document.cookie = `access_token=${token}; path=/; Secure; SameSite=Strict`
+    document.cookie = `access_token=${token}; path=/; SameSite=Secure`
   }
 
   return (

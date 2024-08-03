@@ -12,6 +12,11 @@ import InterSidebar from "./components/Sidebar"
 import SignIn from "./components/SignIn"
 import SignUp from "./components/SignUp"
 import { Toaster } from "./components/ui/toaster"
+import MySubcription from "./pages/MySubcription"
+import DocChatBotHome from "./pages/DocChatBotHome"
+import DocChatbot from "./pages/DocChatbot"
+import UsageAnalytics from "./pages/UsageAnalytics"
+import RightSidebar from "./components/RightSidebar"
 
 const App = () => {
   return (
@@ -59,6 +64,52 @@ const App = () => {
               <InterSidebar></InterSidebar>
               <div className="h-screen flex-1 p-7">
                 <MyAccount></MyAccount>
+              </div>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/subcription"
+          element={
+            <div className="flex">
+              <InterSidebar></InterSidebar>
+              <div className="h-screen flex-1 p-7">
+                <MySubcription></MySubcription>
+              </div>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/chat_bot"
+          element={
+            <div className="flex">
+              <InterSidebar></InterSidebar>
+              <div className="h-screen flex-1 p-2 bg-black">
+                <DocChatBotHome></DocChatBotHome>
+              </div>
+              <RightSidebar></RightSidebar>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/chat_bot/:doc_name"
+          element={
+            <div className="flex">
+              <InterSidebar></InterSidebar>
+              <div className="h-screen flex-1 p-2 bg-black">
+                <DocChatbot></DocChatbot>
+              </div>
+              <RightSidebar></RightSidebar>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/usage_analytics"
+          element={
+            <div className="flex">
+              <InterSidebar></InterSidebar>
+              <div className="h-screen flex-1 p-7">
+                <UsageAnalytics></UsageAnalytics>
               </div>
             </div>
           }
