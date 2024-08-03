@@ -65,7 +65,7 @@ jobs:
         run: echo "${{ secrets.EC2_PEM_SECRET }}" > pdf-query-pro-frontend-key-pair.pem
 
       - name: Set permissions for PEM file
-        run: chmod 400 pdf-query-pro-backend-key-pair.pem
+        run: chmod 400 pdf-query-pro-frontend-key-pair.pem
 
       - name: Connect to EC2 and run commands
         run: |
