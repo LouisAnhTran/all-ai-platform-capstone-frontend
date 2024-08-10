@@ -1,0 +1,110 @@
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push_image:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run npm run build
+      run: npm run build
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.AWS_REGION_TEST }}
+
+    - name: Login to Amazon ECR
+      id: ecr-login
+      run: |
+        aws ecr get-login-password --region ${{ vars.AWS_REGION_TEST }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+        
+    - name: Build, tag, and push Docker image
+      run: |
+        docker build -t ${{vars.WORKFLOW_IMAGE_NAME}} .
+        docker tag ${{vars.WORKFLOW_IMAGE_NAME}}:latest ${{ secrets.ECR_REGISTRY }}:latest
+        docker push ${{ secrets.ECR_REGISTRY }}:latest
+        
+  pull_image_and_deploy_in_ec2_instance:
+    runs-on: ubuntu-latest
+    needs: build_and_push_image
+    if: success()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create PEM file
+        run: echo "${{ secrets.EC2_PEM_SECRET }}" > pdf-query-pro-frontend-key-pair.pem
+
+      - name: Set permissions for PEM file
+        run: chmod 400 pdf-query-pro-frontend-key-pair.pem
+
+      - name: Connect to EC2 and run commands
+        run: |
+          ssh -o StrictHostKeyChecking=no -i "pdf-query-pro-frontend-key-pair.pem" ${{secrets.EC2_FRONTEND_DNS}} << 'EOF'
+            ls -ltr
+            
+            aws ecr get-login-password --region ${{vars.AWS_REGION_TEST}} | docker login --username AWS --password-stdin ${{secrets.ECR_REGISTRY}}
+
+            docker-compose down
+
+            rm -f docker-compose.yml
+
+            # Create a new Docker Compose file using echo
+            echo "version: '3.8'" > docker-compose.yml
+            echo "" >> docker-compose.yml
+            echo "services:" >> docker-compose.yml
+            echo "  pdf-query-pro-frontend:" >> docker-compose.yml
+            echo "    container_name: ${{vars.CONTAINER_NAME}}" >> docker-compose.yml
+            echo "    image: ${{ secrets.ECR_REGISTRY }}:latest" >> docker-compose.yml
+            echo "    pull_policy: always" >> docker-compose.yml
+            echo "    ports:" >> docker-compose.yml
+            echo "      - \"80:80\"" >> docker-compose.yml
+            echo "    environment:" >> docker-compose.yml
+            echo "      - VITE_REACT_APP_API_BASE_URL=${{ vars.PDF_BACKEND_ROUTE }}" >> docker-compose.yml
+
+            
+            docker-compose up -d
+
+            sleep 20
+
+            docker ps
+
+            # Check if container is running
+            if [ $(docker ps -q -f name=${{vars.CONTAINER_NAME}} | wc -l) -eq 0 ]; then
+              echo "Container is not running"
+              exit 1
+            fi
+
+            docker logs ${{vars.CONTAINER_NAME}}
+
+            # Add more commands as needed
+          EOF
