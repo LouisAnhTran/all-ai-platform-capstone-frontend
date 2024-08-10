@@ -19,8 +19,7 @@ interface Message {
   timestamp: string
 }
 
-const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
-
+const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL
 
 function getFormattedTimestamp() {
   const now = new Date()
@@ -44,7 +43,7 @@ const ChatBotWindow = () => {
   const [messages, setMessages] = useState<Message[]>([])
 
   // / Reference to the scrollable container
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const [streamData, setStreamData] = useState<string[]>([])
   const [intermediateString, setIntermediateString] = useState<string | null>(
@@ -177,12 +176,12 @@ const ChatBotWindow = () => {
     }
   }, [data])
 
-   // Auto-scroll to bottom on messages or intermediateString update
-   useEffect(() => {
+  // Auto-scroll to bottom on messages or intermediateString update
+  useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages, intermediateString]);
+  }, [messages, intermediateString])
 
   return (
     <>
@@ -195,7 +194,7 @@ const ChatBotWindow = () => {
               height={30}
               width={120}
             />
-            <p className="text-slate-300 pt-10">Loading...</p>
+            <p className="text-slate-300 pt-10">Loading conversation...</p>
           </div>
         )}
 
@@ -208,7 +207,10 @@ const ChatBotWindow = () => {
               </div>
             ) : (
               <>
-                <div className="h-full w-full flex flex-col overflow-y-auto" ref={scrollRef}>
+                <div
+                  className="h-full w-full flex flex-col overflow-y-auto"
+                  ref={scrollRef}
+                >
                   {messages.map((item: any) => (
                     <>
                       {item.role === "user" ? (
@@ -251,26 +253,28 @@ const ChatBotWindow = () => {
           </>
         )}
 
-        <div className="flex w-full flex-col align-middle items-center justify-center bg-bgleft p-1 h-[10%] bottom-0 left-0">
-          <div className="w-full bg-input m-0 rounded-3xl pt-5 pb-1 px-5 text-slate-100 border-none focus:border-transparent focus:outline-none flex flex-row">
-            <textarea
-              name=""
-              id=""
-              value={prompt}
-              className="w-full p-0 bg-input h-full text-slate-100 border-none focus:border-transparent focus:outline-none text-sm no-scrollbar overflow-hidden"
-              placeholder="Message PDFQueryPro"
-              onChange={e => setPrompt(e.target.value)}
-            ></textarea>
-            <div className="">
-              <button
-                onClick={handleSubmit}
-                className="bg-textarea rounded-full w-8 h-8 flex align-middle justify-center items-center"
-              >
-                <ArrowUp className="text-input1"></ArrowUp>
-              </button>
+        {(!isLoading && !isFetching) && (
+          <div className="flex w-full flex-col align-middle items-center justify-center bg-bgleft p-1 h-[10%]">
+            <div className="w-full bg-input m-0 rounded-3xl pt-5 pb-1 px-5 text-slate-100 border-none focus:border-transparent focus:outline-none flex flex-row">
+              <textarea
+                name=""
+                id=""
+                value={prompt}
+                className="w-full p-0 bg-input h-full text-slate-100 border-none focus:border-transparent focus:outline-none text-sm no-scrollbar overflow-hidden"
+                placeholder="Message PDFQueryPro"
+                onChange={e => setPrompt(e.target.value)}
+              ></textarea>
+              <div className="">
+                <button
+                  onClick={handleSubmit}
+                  className="bg-textarea rounded-full w-8 h-8 flex align-middle justify-center items-center"
+                >
+                  <ArrowUp className="text-input1"></ArrowUp>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div></div>

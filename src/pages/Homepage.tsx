@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { changeModalSignIn, changeModalSignUp } from "@/features/user/userSlice"
 import SignIn from "@/components/SignIn"
 
+import Typewriter from "typewriter-effect"
+
 const Homepage = () => {
   const isOpenSignUp = useSelector(getOpenSignUp)
   const isOpenSignIn = useSelector(getOpenSignIn)
@@ -18,58 +20,33 @@ const Homepage = () => {
   return (
     <>
       <div className="flex w-full">
-        <div className="h-screen bg-black w-1/2 flex flex-col justify-center items-center space-y-4 overflow-hidden relative max-w-full">
-          <img src="./logo.png" alt="" className="w-32 h-32 mb-10" />
-          <p className="text-5xl text-white font-bold">PDFQueryPro</p>
-          <p className="text-4xl text-white text-center p-5">
-            Unlock PDF Insights – Every Question, Every Answer
+        <div className="h-screen bg-[#080833] w-[65%] flex flex-col justify-center items-center space-y-4 overflow-hidden relative max-w-full">
+          <p className="text-5xl text-[#9a4de1] font-bold">PDFQueryPro</p>
+          <p className="text-4xl text-[#9a4de1] text-center p-5">
+          <Typewriter
+              options={{
+                strings: ["  Unlock PDF Insights – Every Question, Every Answer !", "Derive unlimited wisdow and knowledge from your large PDF documents !"],
+                autoStart: true,
+                loop: true,
+              }}
+            />
+          
           </p>
 
-          <div
-            className="absolute bottom-10 left-3 text-center justify-center items-center flex transition-transform duration-500 overflow-hidden space-x-4"
-            style={{
-              animation: "move-across 5s linear infinite",
-            }}
-          >
-            <div className="rounded-lg bg-slate-300 w-30 h-20 flex justify-center items-center p-4 overflow-hidden">
-              <p className="text-black italic">
-                PDF retrieval information - powered by GenAI
-              </p>
-            </div>
-
-            {/* <div className="rounded-lg bg-slate-300 w-30 h-20 flex justify-center items-center p-4 overflow-hidden">
-              <p className="text-black italic">
-                PDF retrieval information - powered by GenAI
-              </p>
-            </div>
-
-            <div className="rounded-lg bg-slate-300 w-30 h-20 flex justify-center items-center p-4 overflow-hidden">
-              <p className="text-black italic">
-                PDF retrieval information - powered by GenAI
-              </p>
-            </div> */}
-          </div>
         </div>
-        <div className="h-screen w-1/2 flex flex-col justify-center items-center space-y-4">
-          <BotIcon size={300}></BotIcon>
+
+        <div className="h-screen flex-1 flex flex-col justify-center bg-[#080808] items-center space-y-4">
+          <BotIcon size={300} className="text-[#7d23cf]"></BotIcon>
           <div className="flex flex-row justify-center space-x-4">
-            <Button size={"lg"} onClick={() => dispatch(changeModalSignUp())}>
+            <Button className="bg-[#2013d0] hover:bg-[#2013d0] hover:scale-105 transform transition duration-300" size={"lg"} onClick={() => dispatch(changeModalSignUp())}>
               Sign Up
             </Button>
-            <Button size={"lg"} onClick={() => dispatch(changeModalSignIn())}>
+            <Button  className="bg-[#2013d0] hover:bg-[#2013d0] hover:scale-105 transform transition duration-300" size={"lg"} onClick={() => dispatch(changeModalSignIn())}>
               Log In
             </Button>
           </div>
         </div>
       </div>
-      <style>
-        {`
-          @keyframes move-across {
-            from { left: 0; }
-            to { left: 100%; }
-          }
-        `}
-      </style>
     </>
   )
 }
