@@ -51,6 +51,11 @@ const RightSidebar = () => {
   // Group documents by date
   const groupedData: GroupedData = groupDocumentsByDate(data?.data)
 
+  // Sort the dates in descending order
+  const sortedDates = Object.keys(groupedData).sort(
+    (a, b) => new Date(b).getTime() - new Date(a).getTime()
+  )
+
   return (
     <div>
       <div
@@ -98,7 +103,7 @@ const RightSidebar = () => {
 
         {isSuccess && open && (
           <div>
-            {Object.keys(groupedData).map(date => (
+            {sortedDates.map(date => (
               <div key={date}>
                 <h2 className="text-slate-400 pl-2 font-medium pt-3 text-sm">
                   {date}
@@ -110,7 +115,7 @@ const RightSidebar = () => {
                         key={doc.id}
                         className="my-1 px-2 py-1 hover:rounded-md hover:bg-bghover cursor-pointer transition-all duration-500"
                       >
-                        <p className="text-slate-300">{doc.doc_name}</p>
+                        <p className="text-slate-300">{doc.doc_name.length>15 ? doc.doc_name.slice(0,20) + "..." : doc.doc_name }</p>
                       </li>
                     </Link>
                   ))}

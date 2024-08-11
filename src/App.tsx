@@ -39,7 +39,7 @@ const App = () => {
             <div className="flex">
               <Toaster></Toaster>
               <InterSidebar></InterSidebar>
-              <div className="h-screen flex-1 p-7">
+              <div className="h-screen flex-1 py-7 pr-5">
                 <Dashboard></Dashboard>
               </div>
             </div>

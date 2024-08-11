@@ -12,6 +12,8 @@ import { log, timeStamp } from "console"
 import { set } from "react-hook-form"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm" // For GitHub-flavored markdown support
+import { Bot } from "lucide-react"
+import { User } from "lucide-react"
 
 interface Message {
   role: string
@@ -20,6 +22,8 @@ interface Message {
 }
 
 const apiBaseUrl =  "https://pdf-query-pro-backend.louis-anh-tran.com/api/v1"
+
+// const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL
 
 function getFormattedTimestamp() {
   const now = new Date()
@@ -55,7 +59,7 @@ const ChatBotWindow = () => {
   const { data, isLoading, isFetching, isError } =
     useFetchAllMessagesQuery(doc_name)
 
-  console.log("data: ", data)
+  console.log("data: ", data?.data)
 
   console.log("messages_updated: ", messages)
 
@@ -215,17 +219,33 @@ const ChatBotWindow = () => {
                     <>
                       {item.role === "user" ? (
                         <div className="flex flex-row justify-end my-2">
-                          <p className="max-w-[60%] text-sm rounded-3xl bg-input p-3 text-slate-300">
-                            {item.content}
-                          </p>
+                          <div className="flex flex-col items-end">
+                            <p className="text-sm rounded-3xl bg-input p-3 text-slate-300 w-fit">
+                              {item.content}
+                            </p>
+                            <p className="text-slate-400 text-xs italic pr-2 pt-1">
+                              {item.timestamp.replace(/:\d{2}\.\d+$/, "")}
+                            </p>
+                          </div>
+                          <div className="pt-2 pl-2">
+                            <User className="text-slate-300 w-30 h-30"></User>
+                          </div>
                         </div>
                       ) : (
-                        <div className="flex flex-row justify-start my-2">
-                          <p className="max-w-[80%] text-sm rounded-3xl bg-input p-3 text-slate-300">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                              {item.content}
-                            </ReactMarkdown>
-                          </p>
+                        <div className="flex flex-row justify-start space-x-2 my-2">
+                          <div className="pt-2">
+                            <Bot className="text-slate-300 w-30 h-30"></Bot>
+                          </div>
+                          <div className="flex flex-col items-start">
+                            <p className="max-w-[80%] text-sm rounded-3xl bg-input p-3 text-slate-300 w-fit">
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {item.content}
+                              </ReactMarkdown>
+                            </p>
+                            <p className="text-slate-400 text-xs italic pl-2 pt-1">
+                              {item.timestamp.replace(/:\d{2}\.\d+$/, "")}
+                            </p>
+                          </div>
                         </div>
                       )}
                     </>
@@ -233,6 +253,9 @@ const ChatBotWindow = () => {
 
                   {isLoadingStream && (
                     <div className="flex flex-row justify-start my-2">
+                      <div className="pt-2 pr-2">
+                        <Bot className="text-slate-300 w-30 h-30"></Bot>
+                      </div>
                       <p className="max-w-[80%] text-sm rounded-3xl bg-input p-3 text-slate-300 flex flex-col align-middle items-center justify-center">
                         {!intermediateString ? (
                           <ReactLoading
@@ -253,7 +276,7 @@ const ChatBotWindow = () => {
           </>
         )}
 
-        {(!isLoading && !isFetching) && (
+        {!isLoading && !isFetching && (
           <div className="flex w-full flex-col align-middle items-center justify-center bg-bgleft p-1 h-[10%]">
             <div className="w-full bg-input m-0 rounded-3xl pt-5 pb-1 px-5 text-slate-100 border-none focus:border-transparent focus:outline-none flex flex-row">
               <textarea

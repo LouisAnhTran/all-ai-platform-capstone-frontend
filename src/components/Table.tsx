@@ -20,6 +20,7 @@ import Switch from "@mui/material/Switch"
 import DeleteIcon from "@mui/icons-material/Delete"
 import FilterListIcon from "@mui/icons-material/FilterList"
 import { visuallyHidden } from "@mui/utils"
+import { Link } from 'react-router-dom';
 
 interface Data {
   id: number
@@ -423,7 +424,9 @@ const EnhancedTable: React.FC<EnhancedTablePropsInsert> = ({ initialRows }) => {
                       <TableCell align="right">
                         {formatDateTime(row.uploaded_time)}
                       </TableCell>
-                      <TableCell align="right">{row.init_chat}</TableCell>
+                      <TableCell align="right">
+                        <Link className="text-blue-500 underline" to={`/chat_bot/${row.doc_name}`}>Init chatbot</Link>
+                      </TableCell>
                     </TableRow>
                   )
                 })}
