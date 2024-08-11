@@ -19,7 +19,7 @@ interface Message {
   timestamp: string
 }
 
-const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL
+const apiBaseUrl =  "https://pdf-query-pro-backend.louis-anh-tran.com/api/v1"
 
 function getFormattedTimestamp() {
   const now = new Date()

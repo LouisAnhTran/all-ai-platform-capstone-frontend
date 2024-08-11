@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    image: test-again
+    image: test-again-1
     build:
       context: .
       dockerfile: Dockerfile
