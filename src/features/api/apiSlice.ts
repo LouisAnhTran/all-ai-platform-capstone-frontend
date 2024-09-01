@@ -11,9 +11,7 @@ function getCookie(name: string): string | undefined {
   return undefined
 }
 
-// const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
-
-const apiBaseUrl = "https://pdf-query-pro-backend.louis-anh-tran.com/api/v1";
+const apiBaseUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
 
 console.log("api base url: ",apiBaseUrl)
 
