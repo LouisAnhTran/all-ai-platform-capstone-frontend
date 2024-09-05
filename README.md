@@ -6,6 +6,18 @@ Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Test
 npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
 ```
 
+## Get started:
+
+Run the following commands:
+
+```
+npm install
+```
+
+```
+npm run dev
+```
+
 ## Goals
 
 - Easy migration from Create React App or Vite
