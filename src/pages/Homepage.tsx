@@ -22,13 +22,14 @@ const Homepage = () => {
     <>
       <div className="flex w-full">
         <div className="h-screen bg-[#080833] w-[65%] flex flex-col justify-center items-center space-y-4 overflow-hidden relative max-w-full">
-          <p className="text-5xl text-[#9a4de1] font-bold">PDFQueryPro</p>
+          <p className="text-5xl text-[#9a4de1] font-bold">AllAI Platform - Ultimate AI Solutions</p>
           <p className="text-4xl text-[#9a4de1] text-center p-5">
             <Typewriter
               options={{
                 strings: [
-                  "  Unlock PDF Insights – Every Question, Every Answer !",
-                  "Derive unlimited wisdow and knowledge from your large PDF documents !",
+                  "  Find the Right AI Tool for Every Use Case",
+                  "We provide the ultimate source for AI Tools for your unique use case !",
+                  "Find, Compare, and Choose the Best AI Tools"
                 ],
                 autoStart: true,
                 loop: true,

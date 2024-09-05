@@ -219,7 +219,7 @@ const Dashboard = () => {
           <div className="w-11/12 flex items-center justify-center">
             <input
               type="text"
-              placeholder="enter your usecase"
+              placeholder={`Hi ${user?.user?.fullName}, please enter your usecase here, we will find the best AI tool for you`}
               className="w-full border-2 border-none p-2 rounded-lg focus:outline-none focus:border-gray-300 focus:shadow-none hover:border-gray-300 hover:shadow-none"
             />
           </div>
