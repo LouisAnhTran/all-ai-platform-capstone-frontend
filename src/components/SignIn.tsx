@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { getOpenSignIn } from "@/features/user/userSlice"
-import { useSelector, UseSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { changeModalSignIn } from "@/features/user/userSlice"
 import { useNavigate } from "react-router-dom"
 
@@ -42,6 +42,7 @@ const formSchema = z.object({
     .min(8, { message: "Password is too short" })
     .max(20, { message: "Password is too long" }),
 })
+
 
 const SignIn = () => {
   const isOpen = useSelector(getOpenSignIn)

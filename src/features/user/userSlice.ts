@@ -8,7 +8,7 @@ interface UserState {
 
 const initialState: UserState = {
   openSignup: false,
-  openLogin: false,
+  openLogin: true,
 }
 
 export const userSlice = createSlice({

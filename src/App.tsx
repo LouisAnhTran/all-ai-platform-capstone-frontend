@@ -5,7 +5,6 @@ import logo from "./logo.svg"
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"
 
 import Homepage from "./pages/Homepage"
-import Dashboard from "./pages/Dashboard"
 import Documents from "./pages/Documents"
 import MyAccount from "./pages/MyAccount"
 import InterSidebar from "./components/Sidebar"
@@ -17,6 +16,10 @@ import DocChatBotHome from "./pages/DocChatBotHome"
 import DocChatbot from "./pages/DocChatbot"
 import UsageAnalytics from "./pages/UsageAnalytics"
 import RightSidebar from "./components/RightSidebar"
+import SignInPage from "./pages/SignIn"
+import SignUpPage from "./pages/SignUp"
+import Dashboard from "./pages/Dashboard"
+import Onboarding from "./components/Onboarding"
 
 const App = () => {
   return (
@@ -27,21 +30,35 @@ const App = () => {
           element={
             <>
               <Toaster></Toaster>
-              <SignIn></SignIn>
-              <SignUp></SignUp>
+              {/* <SignIn></SignIn> */}
+              {/* <SignUp></SignUp> */}
               <Homepage></Homepage>
+            </>
+          }
+        ></Route>
+        <Route
+          path="/sign-in"
+          element={
+            <>
+              <SignInPage></SignInPage>
+            </>
+          }
+        ></Route>
+        <Route
+          path="/sign-up"
+          element={
+            <>
+              <SignUpPage></SignUpPage>
             </>
           }
         ></Route>
         <Route
           path="/dashboard"
           element={
-            <div className="flex">
+            <div className="flex h-screen">
               <Toaster></Toaster>
-              <InterSidebar></InterSidebar>
-              <div className="h-screen flex-1 py-7 pr-5">
-                <Dashboard></Dashboard>
-              </div>
+              <Onboarding></Onboarding>
+              <Dashboard></Dashboard>
             </div>
           }
         ></Route>

@@ -2,6 +2,9 @@ import React from "react"
 import { useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
+import {
+  SignOutButton
+} from '@clerk/clerk-react'
 
 const Menus = [
   { title: "Dashboard", src: "Chart_fill", link: "/dashboard" },
@@ -20,6 +23,7 @@ const InterSidebar = () => {
 
   return (
     <div>
+      <SignOutButton></SignOutButton>
       <div
         className={` ${
           open ? "w-72" : "w-20 "

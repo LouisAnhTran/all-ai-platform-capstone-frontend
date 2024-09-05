@@ -53,6 +53,16 @@ export const apiSlice = createApi({
         body: userData,
       }),
     }),
+    getUserOnboardingStatus: builder.query({
+      query: (email_address) => `/auth/check_onboarding_status/${email_address}`
+    }),
+    onboardNewUser: builder.mutation({
+      query: userData => ({
+        url: "/auth/onboard_user",
+        method: "POST",
+        body: userData,
+      }),
+    }),
     login: builder.mutation({
       query: credentials => ({
         url: "/login",
@@ -114,5 +124,7 @@ export const {
   useGetPdfQuery,
   useGetAllDocsQuery,
   useGenarateResponseStreamQuery,
-  useFetchAllMessagesQuery } =
+  useFetchAllMessagesQuery,
+  useGetUserOnboardingStatusQuery,
+  useOnboardNewUserMutation } =
   apiSlice
