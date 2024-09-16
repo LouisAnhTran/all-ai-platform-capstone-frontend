@@ -20,6 +20,11 @@ import SignInPage from "./pages/SignIn"
 import SignUpPage from "./pages/SignUp"
 import Dashboard from "./pages/Dashboard"
 import Onboarding from "./components/Onboarding"
+import NavBar from "./components/NavBar"
+import Catalogue from "./pages/Catalogue"
+import ToolManagement from "./pages/ToolManagement"
+import OurAiTools from "./pages/OurAiTools"
+import AIBenchMarking from "./pages/AIBenchMarking"
 
 const App = () => {
   return (
@@ -55,10 +60,51 @@ const App = () => {
         <Route
           path="/dashboard"
           element={
-            <div className="flex h-screen">
+            <div className="h-screen">
+              {/* <NavBar></NavBar> */}
               <Toaster></Toaster>
               <Onboarding></Onboarding>
               <Dashboard></Dashboard>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/catalogue"
+          element={
+            <div className="h-screen">
+              <NavBar></NavBar>
+              <Toaster></Toaster>
+              <Catalogue></Catalogue>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/tool_management"
+          element={
+            <div className="h-screen">
+              <NavBar></NavBar>
+              <Toaster></Toaster>
+              <ToolManagement></ToolManagement>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/our_ai_tools"
+          element={
+            <div className="h-screen">
+              <NavBar></NavBar>
+              <Toaster></Toaster>
+              <OurAiTools></OurAiTools>
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/ai_benchmarking"
+          element={
+            <div className="h-screen">
+              <NavBar></NavBar>
+              <Toaster></Toaster>
+              <AIBenchMarking></AIBenchMarking>
             </div>
           }
         ></Route>

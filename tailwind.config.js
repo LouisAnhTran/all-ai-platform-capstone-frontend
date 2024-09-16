@@ -25,6 +25,7 @@ module.exports = {
         textarea: "#676767"
       },
       colors: {
+        customPink: "rgb(255, 208, 238)",
         input1: "#2F2F2F",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

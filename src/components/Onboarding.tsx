@@ -39,6 +39,7 @@ import Box from "@mui/material/Box"
 import {
   getOnboardingState,
   updateOnboadingState,
+  updateOnboardingFinishedState,
 } from "@/features/onboarding/onboardingSlice"
 import { useUser } from "@clerk/clerk-react"
 import {
@@ -109,6 +110,7 @@ const Onboarding = () => {
       console.log("result: ", result)
 
       dispatch(updateOnboadingState(true))
+      dispatch(updateOnboardingFinishedState(true))
 
       toast({
         variant: "success",

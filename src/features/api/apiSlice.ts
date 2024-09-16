@@ -53,8 +53,10 @@ export const apiSlice = createApi({
         body: userData,
       }),
     }),
+    // auth - onboading
     getUserOnboardingStatus: builder.query({
       query: (email_address) => `/auth/check_onboarding_status/${email_address}`
+      // providesTags: ['Post']
     }),
     onboardNewUser: builder.mutation({
       query: userData => ({
@@ -62,6 +64,11 @@ export const apiSlice = createApi({
         method: "POST",
         body: userData,
       }),
+      invalidatesTags: ['Post']
+    }),
+    // ai catalogue
+    getAiToolsForAllCategory: builder.query({
+      query: (category) => `/ai_catalogue/get_all_al_tools/${category}`
     }),
     login: builder.mutation({
       query: credentials => ({
@@ -126,5 +133,6 @@ export const {
   useGenarateResponseStreamQuery,
   useFetchAllMessagesQuery,
   useGetUserOnboardingStatusQuery,
-  useOnboardNewUserMutation } =
+  useOnboardNewUserMutation,
+  useGetAiToolsForAllCategoryQuery } =
   apiSlice

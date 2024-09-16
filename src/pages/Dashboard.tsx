@@ -39,27 +39,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { useGetUserOnboardingStatusQuery } from "@/features/api/apiSlice"
-import { useDispatch } from "react-redux"
-import { updateOnboadingState } from "@/features/onboarding/onboardingSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { getOnboardingFinishedState, updateOnboadingState, updateOnboardingFinishedState } from "@/features/onboarding/onboardingSlice"
+import NavBar from "@/components/NavBar"
+import ShowAIToolsAllCategories from "@/components/AiCatalogue/ShowAIToolsAllCategories"
+import YouTube from "@/components/TestSkeleton"
+import Footer from "@/components/Footer"
 
-const items_menu = [
-  {
-    title: "Catalogue",
-    link: "/catalogue",
-  },
-  {
-    title: "Tools Management",
-    link: "/tool_management",
-  },
-  {
-    title: "Our AI tools",
-    link: "/our_ai_tools",
-  },
-  {
-    title: "AI Benchmarking",
-    link: "/ai_benchmarking",
-  },
-]
 
 const ai_categories = [
   {
@@ -143,18 +129,21 @@ const Dashboard = () => {
   const email_address = user.user?.primaryEmailAddress?.emailAddress
 
   // console.log("email: ", email_address)
+  const isOnboardedFinished=useSelector(getOnboardingFinishedState)
 
   const { data:status, isLoading, isFetching, isError } =
     useGetUserOnboardingStatusQuery(email_address)
 
   // console.log("data: ", status)
 
-
   useEffect(()=>{
-    if(status){
+    if(status && !isOnboardedFinished){
       dispatch(updateOnboadingState(status.status))
+      if(status.status){
+        dispatch(updateOnboardingFinishedState(true))
+      }
     }
-  },[status,dispatch])
+  },[status,dispatch,isOnboardedFinished])
 
   if (isLoading || isFetching) {
     return (
@@ -173,43 +162,8 @@ const Dashboard = () => {
  
 
   return (
-    <div className="w-full">
-      {/* Header  */}
-      <div className="px-20 pt-5 w-full">
-        <div className="flex flex-row justify-between w-full">
-          {/* logo */}
-          <div className="flex flex-row items-center space-x-4">
-            <Brain className="h-12 w-12 text-slate-700"></Brain>
-            <p className="text-3xl font-bold text-slate-700">All AI</p>
-          </div>
-
-          {/* navigation */}
-          <div className="flex flex-row tracking-normal space-x-2 items-center text-lg text-slate-600 font-semibold">
-            {items_menu.map(item => (
-              <Link to={item.link}>
-                <p className="hover:bg-slate-100 rounded-3xl p-3 transition-transform duration-900">
-                  {item.title}
-                </p>
-              </Link>
-            ))}
-
-            <Bell></Bell>
-            <Settings></Settings>
-            <div className="flex flex-row items-center justify-between space-x-3 rounded-3xl border-2 p-3 hover:shadow-md">
-              <AlignJustify></AlignJustify>
-              <UserButton></UserButton>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* toggle between two types */}
-      <div className="w-full flex flex-row items justify-center mt-5">
-        <div className="flex flex-row space-x-4 items-center text-xl font-semibold text-slate-600">
-          <p>AI Tools</p>
-          <p>LLMs</p>
-        </div>
-      </div>
+    <div>
+      <NavBar></NavBar>
 
       {/* smart search engine */}
       <div className="w-full flex flex-col justify-center items-center mt-4 pb-10 border-b-2 shadow-sm">
@@ -268,6 +222,14 @@ const Dashboard = () => {
           </Carousel>
         </div>
       </div>
+
+      {/* show ai tools for all category */}
+      <ShowAIToolsAllCategories></ShowAIToolsAllCategories>
+
+
+      {/* Footer */}
+      <Footer></Footer>
+  
     </div>
   )
 }
